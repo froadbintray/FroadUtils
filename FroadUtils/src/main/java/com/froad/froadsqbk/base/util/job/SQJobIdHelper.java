@@ -1,12 +1,7 @@
 package com.froad.froadsqbk.base.util.job;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
 import android.content.Context;
 import android.os.Build;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author Created by SimenHi.
@@ -90,32 +85,7 @@ public class SQJobIdHelper {
             return minJobId;
         }
 
-        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-
-        if (jobScheduler != null) {
-            List<JobInfo> infoList = jobScheduler.getAllPendingJobs();
-
-            for (int jobId = minJobId; jobId < maxJobId; jobId++) {
-                Iterator<JobInfo> infoIterator = infoList.iterator();
-                boolean existJob = false;
-                while (infoIterator.hasNext()) {
-                    JobInfo jobInfo = infoIterator.next();
-
-                    if (jobInfo.getId() == jobId) {
-                        existJob = true;
-                        break;
-                    }
-                }
-
-                if (!existJob) {
-                    return jobId;
-                }
-            }
-
-            return SQJobIdConstants.ALL_OCCUPANCY;
-        }
-
-        return SQJobIdConstants.UNDEFINE;
+        return SQJobIdHelperImpl.getJobId(context,jobServiceName,minJobId,maxJobId);
     }
 
 }
