@@ -140,4 +140,19 @@ public class JobSchedulerUtil {
         }
     }
 
+    /**
+     * @return 判断当前apk是否支持JobIntentService
+     */
+    public static boolean isSupportJobIntentService(){
+        try {
+            Class.forName("android.support.v4.app.JobIntentService");
+
+            return true;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 }
